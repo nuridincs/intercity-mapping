@@ -1,7 +1,9 @@
+const dot = require('express');
 const express = require('express');
 const mysql = require('mysql2/promise');
 const cors = require('cors');
 const app = express();
+require('dotenv').config();
 
 // Middleware
 app.use(cors());
@@ -9,14 +11,15 @@ app.use(express.json());
 
 // Database configuration
 const dbConfig = {
-  host: '127.0.0.1',
-  user: 'root',
-  password: '',
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
   database: 'db_intercity_mapping',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
 };
+console.log(" dbConfig:", dbConfig)
 
 // Create connection pool
 const pool = mysql.createPool(dbConfig);
